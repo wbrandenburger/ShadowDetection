@@ -39,13 +39,14 @@ setuptools.setup(
         "pyyaml>=3.12",
         "pandas",
         # - python image processing packages -
-        # "opencv-python",
-        # "pillow",
-        # "tifffile",
+        "opencv-python",
+        "scikit-image",
+        "tifffile",
         # - python numerical analysis packages -
-        # "matplotlib",
-        # "numpy"
-        # "scipy"
+        "matplotlib",
+        "numpy",
+        "scipy",
+        "skikit-learn"
     ],
     python_requires=">=3",
     classifiers=[
