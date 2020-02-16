@@ -37,7 +37,7 @@ try:
 
     _logger = logging.getLogger("shdw")
 
-    if os.environ.get("SHDWDEBUG"):
+    if os.environ.get("SHDW_DEBUG"):
         _logger.setLevel(logging.DEBUG)
         
 except ImportError:

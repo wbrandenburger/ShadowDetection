@@ -12,10 +12,7 @@ import scipy.signal as sg
 from matplotlib.widgets import Slider, Button, RadioButtons
 
 
-from smoothing import *
-
-
-
+from source.freitas.smoothing import *
 
 def isShadow(K_R, K_G, K_B):
 
@@ -53,17 +50,17 @@ def shadowDetection_Santos_KH(imgIn):
 	rows = imgIn.shape[0]
 	cols = imgIn.shape[1]
 
-        mask = np.zeros((3,3), dtype=float)
+	mask = np.zeros((3,3), dtype=float)
 
-    	mask[0,0] = -1.0;
-    	mask[0,1] = -1.0;
-    	mask[0,2] = -1.0;
-    	mask[1,0] = -1.0;
-    	mask[1,1] = 32.0;
-    	mask[1,2] = -1.0;
-    	mask[2,0] = -1.0;
-    	mask[2,1] = -1.0;
-    	mask[2,2] = -1.0;
+	mask[0,0] = -1.0
+	mask[0,1] = -1.0
+	mask[0,2] = -1.0
+	mask[1,0] = -1.0
+	mask[1,1] = 32.0
+	mask[1,2] = -1.0
+	mask[2,0] = -1.0
+	mask[2,1] = -1.0
+	mask[2,2] = -1.0
 
 
 	imgOut = np.zeros((rows, cols), dtype=np.uint8)
@@ -72,15 +69,15 @@ def shadowDetection_Santos_KH(imgIn):
 
 	np.zeros((rows, cols), dtype=np.uint8)
 
-	for l in xrange(rows):
-		for c in xrange(cols):
+	for l in range(rows):
+		for c in range(cols):
 			R = imgIn.item(l,c,2)
 			G = imgIn.item(l,c,1)
 			B = imgIn.item(l,c,0)
 
 
 			# Compute components S and I from HSI system - values between 0 and 255
-			I  = (0.33333333) * (R + G + B);
+			I  = (0.33333333) * (R + G + B)
 			
 			I_band[l,c] = I
 
@@ -95,8 +92,8 @@ def shadowDetection_Santos_KH(imgIn):
 	G_medio_nonShdw = 0.0
 	B_medio_nonShdw = 0.0
 	count = 0.0
-	for l in xrange(2,rows-2):
-		for c in xrange(2,cols-2):
+	for l in range(2,rows-2):
+		for c in range(2,cols-2):
 			# Shadow candidates (value 255) are values below the threshold
 			if shadowMatrix[l,c] > threshold*1.3:
 
@@ -123,8 +120,8 @@ def shadowDetection_Santos_KH(imgIn):
 		K_B = 0.0
 
 		# Checking on shadow-free areas, verifying the K_H property with windows of size 3
-		for l in xrange(2,rows-2):
-			for c in xrange(2,cols-2):
+		for l in range(2,rows-2):
+			for c in range(2,cols-2):
 					
 				R_med = 0.0
 				G_med = 0.0
@@ -134,8 +131,8 @@ def shadowDetection_Santos_KH(imgIn):
 				# in order to apply the shadow verification process.
 				allSameTarget = True
 				target = imgOut[l,c]
-				for ll in xrange(-1,2):
-					for cc in xrange(-1,2):
+				for ll in range(-1,2):
+					for cc in range(-1,2):
 						if imgOut[l+ll, c+cc] != target:
 							allSameTarget = False
 						else:
