@@ -46,7 +46,7 @@ setuptools.setup(
         "matplotlib",
         "numpy",
         "scipy",
-        "skikit-learn"
+        "scikit-learn"
     ],
     python_requires=">=3",
     classifiers=[
