@@ -1,0 +1,6 @@
+[submodule ".\\repos\\vander\\"]
+	path = .\\repos\\vander\\
+	url = https://github.com/vanderfreitas/shadowdetection
+[submodule ".\\repos\\silva"]
+	path = .\\repos\\silva
+	url = https://github.com/ThomasWangWeiHong/Shadow-Detection-Algorithm-for-Aerial-and-Satellite-Images
