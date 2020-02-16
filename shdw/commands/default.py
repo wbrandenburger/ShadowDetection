@@ -12,28 +12,28 @@ Examples
 
     .. code:: shell
 
-        rsvis --set editor gedit --set opentool firefox edit
-        rsvis --set editor gedit --set opentool firefox open
+        shdw --set editor gedit --set opentool firefox edit
+        shdw --set editor gedit --set opentool firefox open
 
 - If you want to list the libraries and pick one before sending a database
-  query to rsvis, use ``--pick-lib`` as such
+  query to shdw, use ``--pick-lib`` as such
 
     .. code:: shell
 
-        rsvis --pick-lib open 'einstein relativity'
+        shdw --pick-lib open 'einstein relativity'
 
 Cli
 ^^^
-.. click:: rsvis.rsvis.commands.default:run
-    :prog: rsvis
-    :rsvis.commands: []
+.. click:: shdw.shdw.commands.default:run
+    :prog: shdw
+    :shdw.commands: []
 
 """
 
 #   import ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-import rsvis.__init__
-import rsvis.commands
+import shdw.__init__
+import shdw.commands
 
 import click
 import colorama
@@ -48,7 +48,7 @@ class MultiCommand(click.MultiCommand):
 
     #   settings ------------------------------------------------------------
     # -----------------------------------------------------------------------
-    scripts = rsvis.commands.get_scripts()
+    scripts = shdw.commands.get_scripts()
     logger = logging.getLogger('multicommand')
 
     #   method --------------------------------------------------------------
@@ -105,7 +105,7 @@ class MultiCommand(click.MultiCommand):
     "--help" 
 )
 @click.version_option(
-    version=rsvis.__version__
+    version=shdw.__version__
 )
 @click.option(
     "-v",

@@ -4,14 +4,14 @@
 
 #   import ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-import rsvis.__init__
-import rsvis.config.settings
-import rsvis.utils.format
+import shdw.__init__
+import shdw.config.settings
+import shdw.utils.format
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def main():
 
     # print user defined settings
-    rsvis.__init__._logger.debug("Print user defined settings")
-    rsvis.utils.format.print_data(rsvis.config.settings._SETTINGS)
+    shdw.__init__._logger.debug("Print user defined settings")
+    shdw.utils.format.print_data(shdw.config.settings._SETTINGS)

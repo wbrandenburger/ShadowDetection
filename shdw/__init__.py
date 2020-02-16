@@ -35,8 +35,10 @@ try:
 
     logging.basicConfig(format=log_format)
 
-    _logger = logging.getLogger("rsvis")
-    if os.environ.get("RSVIS_DEBUG"):
+    _logger = logging.getLogger("shdw")
+
+    if os.environ.get("SHDWDEBUG"):
         _logger.setLevel(logging.DEBUG)
+        
 except ImportError:
     pass

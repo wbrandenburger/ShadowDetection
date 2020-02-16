@@ -4,8 +4,8 @@
 
 #   import ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-import rsvis.__init__
-import rsvis.utils.yaml
+import shdw.__init__
+import shdw.utils.yaml
 
 import os
 
@@ -31,11 +31,11 @@ def get_settings(path):
     
     # if general settings file does not exist raise error
     if not os.path.isfile(path):
-        raise IOError("Settings file {0} with experiment settings does not exist".format(settings_file))
+        raise IOError("Settings file {0} with experiment settings does not exist".format(path))
     
     # read general settings file and assign content to global settings object
-    rsvis.__init__._logger.debug("Read settings file {0}:".format(path))
-    _SETTINGS = rsvis.utils.yaml.yaml_to_data(path, raise_exception=True)
+    shdw.__init__._logger.debug("Read settings file {0}:".format(path))
+    _SETTINGS = shdw.utils.yaml.yaml_to_data(path, raise_exception=True)
     
     get_data()
 

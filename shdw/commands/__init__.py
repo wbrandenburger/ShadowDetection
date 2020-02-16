@@ -4,8 +4,8 @@
 
 #   import ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-import rsvis.config.utils
-import rsvis.plugin
+import shdw.config.utils
+import shdw.plugin
 
 import glob
 import logging
@@ -26,11 +26,11 @@ def _create_commands_mgr():
         return
 
     commands_mgr = stevedore.extension.ExtensionManager(
-        namespace='rsvis.command',
+        namespace='shdw.command',
         invoke_on_load=False,
         verify_requirements=True,
         propagate_map_exceptions=True,
-        on_load_failure_callback=rsvis.plugin.stevedore_error_handler
+        on_load_failure_callback=shdw.plugin.stevedore_error_handler
     )
     
 #   function ----------------------------------------------------------------

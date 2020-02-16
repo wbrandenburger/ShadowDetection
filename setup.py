@@ -5,7 +5,7 @@
 #   ./venv/bin/pip install --editable .
 #   ./venv/bin/pip install --editable .[dev]  # with dev requirements, too
 
-import rsvis
+import shdw
 
 import glob
 import setuptools
@@ -19,16 +19,16 @@ if sys.platform == "win32":
 else:
     data_files = []
 
-included_packages = ["rsvis"] + ["rsvis." + p for p in setuptools.find_packages("rsvis")]
+included_packages = ["shdw"] + ["shdw." + p for p in setuptools.find_packages("shdw")]
 
 setuptools.setup(
-    name="rsvis",
-    version=rsvis.__version__,
-    maintainer=rsvis.__maintainer__,
-    maintainer_email=rsvis.__email__,
-    author=rsvis.__author__,
-    author_email=rsvis.__email__,
-    license=rsvis.__license__,
+    name="shdw",
+    version=shdw.__version__,
+    maintainer=shdw.__maintainer__,
+    maintainer_email=shdw.__email__,
+    author=shdw.__author__,
+    author_email=shdw.__email__,
+    license=shdw.__license__,
     url="https://github.com/wbrandenburger/DataVisualization",
     install_requires=[
         # - python project packages - 
@@ -83,17 +83,17 @@ setuptools.setup(
         "visualization", "remote sensing", "images", "aerial", "satellite", "viewer", "explorer", "science", "research", "command-line", "tui"
     ],
     package_data=dict(
-        rsvis=[
+        shdw=[
         ],
     ),
     data_files=data_files,
     packages=included_packages,
     entry_points={
         "console_scripts": [
-            "rsvis=rsvis.commands.default:run",
+            "shdw=shdw.commands.default:run",
         ],
-        "rsvis.command": [
-            "run=rsvis.commands.run:cli"
+        "shdw.command": [
+            "run=shdw.commands.run:cli"
         ],
     },
     platforms=["linux", "osx", "windows"],
