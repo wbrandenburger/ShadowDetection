@@ -28,6 +28,16 @@ def test_shadow_freitas():
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
+def test_shadow_silva():
+    shdw.tools.experiments.get_shadow_silva(
+        shdw.config.settings._DATA,
+        shdw.config.settings._SETTINGS["io"]["dest-dir"],
+        shdw.config.settings._SETTINGS["io"]["dest-basename"],
+        shdw.config.settings._SETTINGS["io"]["regex"]
+    )
+
+#   function ----------------------------------------------------------------
+# ---------------------------------------------------------------------------
 def test_research():
     import shdw.utils.regex
     research = shdw.utils.regex.ReSearch(*shdw.config.settings._SETTINGS["io"]["regex"])

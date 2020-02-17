@@ -10,7 +10,7 @@ from sklearn.cluster import KMeans
 
 
 
-def shadow_detection(image_file, shadow_mask_file, convolve_window_size = 5, num_thresholds = 3, struc_elem_size = 5):
+def shadow_detection(image_file, shadow_mask_file = None, convolve_window_size = 5, num_thresholds = 3, struc_elem_size = 5):
     """
     This function is used to detect shadow - covered areas in an image, as proposed in the paper 
     'Near Real - Time Shadow Detection and Removal in Aerial Motion Imagery Application' by Silva G.F., Carneiro G.B., 
@@ -84,8 +84,9 @@ def shadow_detection(image_file, shadow_mask_file, convolve_window_size = 5, num
     
 
     metadata['count'] = 1
-    with rasterio.open(shadow_mask_file, 'w', **metadata) as dst:
-        dst.write(shadow_mask)
+    if shadow_mask_file:
+        with rasterio.open(shadow_mask_file, 'w', **metadata) as dst:
+            dst.write(shadow_mask)
         
     return shadow_mask
 
