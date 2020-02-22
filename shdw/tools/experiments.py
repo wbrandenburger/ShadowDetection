@@ -6,13 +6,14 @@
 # ---------------------------------------------------------------------------
 import shdw.__init__
 import shdw.tools.imgcontainer
-import shdw.utils.regex
+import shdw.utils.general
 import source.freitas.shdwDetection
 import source.silva.Shadow_Detection
 
 import cv2
 import pathlib
 import tifffile
+import os
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
@@ -31,25 +32,10 @@ def read_image(path, scale):
     img = tifffile.imread(path)
     img = resize_img(img, scale)
     return img
-#   class -------------------------------------------------------------------
-# ---------------------------------------------------------------------------
-class PathCreator():
-
-    #   method --------------------------------------------------------------
-    # -----------------------------------------------------------------------
-    def __init__(self, dest_dir, dest_basename, regex=".*", group=0):
-        self._dest_dir = pathlib.Path(dest_dir)
-        self._dest_basename = dest_basename
-        self._re_search = shdw.utils.regex.ReSearch(regex, group)
-
-    #   method --------------------------------------------------------------
-    # -----------------------------------------------------------------------
-    def __call__(self, path):
-        return self._dest_dir / self._dest_basename.format(self._re_search(pathlib.Path(path).stem))
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_data(files, dest_dir, dest_basename, io, resize=100):
+def get_data(files, path_dir=os.environ.get("TEMP"), path_name="{}", regex=[".*",0], resize=100):
 
     load = lambda path, spec: read_image(path, resize)
     
@@ -60,15 +46,15 @@ def get_data(files, dest_dir, dest_basename, io, resize=100):
             img.append(path = f, spec="image", live=True)
         img_set.append(img)
 
-    get_path = PathCreator(dest_dir, dest_basename, *io)
+    get_path = shdw.utils.general.PathCreator(path_dir, path_name, *regex)
     save = lambda path, img: tifffile.imwrite(get_path(path), img)
 
     return img_set, save
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_shadow_freitas(files, dest_dir, dest_basename, io, resize=100):
-    img_set, save = get_data(files, dest_dir, dest_basename, io, resize=resize)
+def get_shadow_freitas(files, output, resize=100):
+    img_set, save = get_data(files, **output, resize=resize)
 
     for item in iter(img_set):
         shdw.__init__._logger.debug("Processing image '{}'".format(item[0].path))
@@ -78,8 +64,8 @@ def get_shadow_freitas(files, dest_dir, dest_basename, io, resize=100):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_shadow_silva(files, dest_dir, dest_basename, io, resize=100):
-    img_set, save = get_data(files, dest_dir, dest_basename, io, resize=resize)
+def get_shadow_silva(files, output, resize=100):
+    img_set, save = get_data(files, **output, resize=resize)
 
     for item in iter(img_set):
         shdw.__init__._logger.debug("Processing image '{}'".format(item[0].path))

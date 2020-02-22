@@ -24,9 +24,7 @@ get_value = lambda obj, key, default: obj[key] if key in obj.keys() else default
 def task_new_shadow_img_freitas():
     shdw.tools.experiments.get_shadow_freitas(
         shdw.config.settings._DATA,
-        shdw.config.settings._SETTINGS["io"]["dest-dir"],
-        shdw.config.settings._SETTINGS["io"]["dest-basename"],
-        shdw.config.settings._SETTINGS["io"]["regex"],
+        shdw.config.settings._SETTINGS["output"],
         resize=get_value(shdw.config.settings._SETTINGS,"resize", 100)
     )
 
@@ -35,17 +33,15 @@ def task_new_shadow_img_freitas():
 def task_new_shadow_img_silva():
     shdw.tools.experiments.get_shadow_silva(
         shdw.config.settings._DATA,
-        shdw.config.settings._SETTINGS["io"]["dest-dir"],
-        shdw.config.settings._SETTINGS["io"]["dest-basename"],
-        shdw.config.settings._SETTINGS["io"]["regex"]
+        shdw.config.settings._SETTINGS["output"],
     )
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def task_test_research():
     import shdw.utils.regex
-    research = shdw.utils.regex.ReSearch(*shdw.config.settings._SETTINGS["io"]["regex"])
-    print(research("A:\\Blubb\\ABC_345_RGB.tif"))
+    research = shdw.utils.regex.ReSearch(*shdw.config.settings._SETTINGS["output"]["regex"])
+    print(research("G:\\Blubb\\ABC_345_RGB.tif"))
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
