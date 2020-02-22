@@ -41,10 +41,10 @@ def get_task_module(task):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_module_functions(module, regex):
+def get_module_functions(module):
     task_list = list()
     for task in dir(module):
-        if re.compile(regex).match(task):
+        if re.compile(shdw.config.settings._TASK_PREFIX).match(task):
             task_list.append(task.replace(shdw.config.settings._TASK_PREFIX ,"",1))
     return task_list
 

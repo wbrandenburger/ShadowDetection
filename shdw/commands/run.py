@@ -33,8 +33,8 @@ import sys
 @click.option(
     "--task_set",
     help="Execute a task from specified task set(default: {0})".format(shdw.config.settings._TASK_SPEC_NAME),
-    type=click.Choice([*shdw.plugin.get_tasks()]), # @todo[to change]: folder "tasks"
-    default=shdw.config.settings._TASK_SPEC_NAME # @todo[to change]: default task "default"
+    type=click.Choice([*shdw.plugin.get_tasks()]),
+    default=shdw.config.settings._TASK_SPEC_NAME 
 )
 @click.option(
     "-t",
@@ -58,12 +58,12 @@ def cli(
 
     # call task's main routine
     if not task:
-        shdw.__init__._logger.debug("Call the main routine from task set '{0}'".format(task_module[0]))
+        shdw.__init__._logger.debug("Call the default routine from task set '{0}'".format(task_module[0]))
         task_module[0].main()
     else:
         shdw.__init__._logger.debug("Call task '{0}' from set '{1}'".format(task_module[0], task))
 
-        task_funcs = shdw.plugin.get_module_functions(task_module[0], "^task")
+        task_funcs = shdw.plugin.get_module_functions(task_module[0])
         if not task in task_funcs:
             raise shdw.debug.exceptions.ArgumentError(task, task_funcs) 
 
