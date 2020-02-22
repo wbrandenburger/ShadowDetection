@@ -8,6 +8,7 @@ import shdw.__init__
 import shdw.config.settings
 import shdw.utils.format
 
+import shdw.tools.distmask
 import shdw.tools.shadows
 
 #   function ----------------------------------------------------------------
@@ -19,10 +20,19 @@ def task_default():
 # ---------------------------------------------------------------------------
 get_value = lambda obj, key, default: obj[key] if key in obj.keys() else default
 
+# function ------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+def task_new_distance_mask():
+    shdw.tools.distmask.new_distance_mask(
+        shdw.config.settings._DATA,
+        shdw.config.settings._SETTINGS["output"],
+        labels = shdw.config.settings._SETTINGS["label"]
+    )
+
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def task_new_shadow_img_freitas():
-    shdw.tools.shadwos.get_shadow_freitas(
+def task_new_shadow_map_freitas():
+    shdw.tools.shadows.new_shadow_map_freitas(
         shdw.config.settings._DATA,
         shdw.config.settings._SETTINGS["output"],
         scale=get_value(shdw.config.settings._SETTINGS,"scale", 100)
@@ -30,8 +40,8 @@ def task_new_shadow_img_freitas():
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def task_new_shadow_img_silva():
-    shdw.tools.shadows.get_shadow_silva(
+def task_new_shadow_map_silva():
+    shdw.tools.shadows.new_shadow_map_silva(
         shdw.config.settings._DATA,
         shdw.config.settings._SETTINGS["output"],
         scale=get_value(shdw.config.settings._SETTINGS,"scale", 100)

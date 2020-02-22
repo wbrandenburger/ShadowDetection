@@ -11,7 +11,7 @@ import source.silva.Shadow_Detection
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_shadow_freitas(files, output, scale=100):
+def new_shadow_map_freitas(files, output, scale=100):
     img_set, save = shdw.tools.data.get_data(files, **output, scale=scale)
 
     for item in iter(img_set):
@@ -22,7 +22,7 @@ def get_shadow_freitas(files, output, scale=100):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_shadow_silva(files, output, scale=100):
+def new_shadow_map_silva(files, output, scale=100):
     img_set, save = shdw.tools.data.get_data(files, **output, scale=scale)
 
     for item in iter(img_set):
