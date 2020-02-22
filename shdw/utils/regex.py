@@ -19,5 +19,9 @@ class ReSearch():
     #   method --------------------------------------------------------------
     # -----------------------------------------------------------------------   
     def __call__(self, pattern):
-        return self._regex.search(pattern).group(self._group)
+        try:
+            result = self._regex.search(pattern).group(self._group)
+        except AttributeError:
+            result = None
+        return result
 

@@ -68,7 +68,8 @@ def shadowDetection_Santos_KH(imgIn):
 	I_band = np.zeros((rows, cols), dtype=np.uint8)
 
 	np.zeros((rows, cols), dtype=np.uint8)
-
+	
+	# to gray, implement easy function for transfer
 	for l in range(rows):
 		for c in range(cols):
 			R = imgIn.item(l,c,2)
@@ -81,11 +82,20 @@ def shadowDetection_Santos_KH(imgIn):
 			
 			I_band[l,c] = I
 
-	
+	# https://docs.opencv.org/master/d4/d13/tutorial_py_filtering.html
+	# https://docs.opencv.org/master/d4/d86/group__imgproc__filter.html#ga9d7064d478c95d60003cf839430737ed
 	w = 7
 	gray = cv2.bilateralFilter(I_band, w, 700, 25) 
 	shadowMatrix = sg.convolve(gray,mask)/8.0
 
+	normalizedImg = cv2.normalize(shadowMatrix  , 0, 255, cv2.NORM_MINMAX)
+	cv2.namedWindow( "Display window", cv2.WINDOW_NORMAL )
+	cv2.imshow("Display window", normalizedImg)
+	while True:
+		key = chr(cv2.waitKeyEx(1) & 0xFF)
+		if key=="q":
+			break
+	cv2.destroyAllWindows() 
 	threshold = np.mean(gray)
 	
 	R_medio_nonShdw = 0.0

@@ -7,6 +7,7 @@
 import shdw.__init__
 import shdw.config.settings
 import shdw.plugin
+import shdw.debug.exceptions
 
 import click
 import logging
@@ -30,23 +31,22 @@ import sys
     nargs=1
 )
 @click.option(
-    "-t",
-    "--task",
-    help="Execute the specified task (default: {0})".format(shdw.config.settings._DEFAULT_TASK),
+    "--task_set",
+    help="Execute a task from specified task set(default: {0})".format(shdw.config.settings._TASK_SPEC_NAME),
     type=click.Choice([*shdw.plugin.get_tasks()]), # @todo[to change]: folder "tasks"
-    default=shdw.config.settings._DEFAULT_TASK # @todo[to change]: default task "default"
+    default=shdw.config.settings._TASK_SPEC_NAME # @todo[to change]: default task "default"
 )
 @click.option(
-    "-f",
-    "--func",
-    help="Execute the specified function (default: {0})".format(""),
+    "-t",
+    "--task",
+    help="Execute the specified task (default: {0})".format(""),
     type=str,
-    default= ""
+    default= shdw.config.settings._DEFAULT_TASK 
 )
 def cli(
         file,
+        task_set,
         task,
-        func,
     ):
     """Read general settings file and execute specified task."""
 
@@ -54,22 +54,20 @@ def cli(
     shdw.config.settings.get_settings(file)
 
     # get the specified task and imort it as module
-    task_module = shdw.plugin.get_task_module(task)
+    task_module = shdw.plugin.get_task_module(task_set)
 
     # call task's main routine
-    if not func:
-        shdw.__init__._logger.debug("Call the main routine from task module '{0}'".format(task_module[0]))
+    if not task:
+        shdw.__init__._logger.debug("Call the main routine from task set '{0}'".format(task_module[0]))
         task_module[0].main()
     else:
-        shdw.__init__._logger.debug("Call '{0}' from task module '{1}'".format(task_module[0], func))
+        shdw.__init__._logger.debug("Call task '{0}' from set '{1}'".format(task_module[0], task))
 
-        task_funcs = shdw.plugin.get_module_functions(task_module[0], "^test")
-        if not func in task_funcs:
-            raise ValueError("Error: Invalid value for '-f' / '--func': invalid choice: {0}. (choose from {1})".format(
-                func, 
-                task_funcs
-                )
-            ) # @todo[generalize]: also in expmgmt
+        task_funcs = shdw.plugin.get_module_functions(task_module[0], "^task")
+        if not task in task_funcs:
+            raise shdw.debug.exceptions.ArgumentError(task, task_funcs) 
 
-        task_func = getattr(task_module[0], func)
+        task_func = getattr(task_module[0], 
+            "{}{}".format(shdw.config.settings._TASK_PREFIX, task)
+        )
         task_func()

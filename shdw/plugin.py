@@ -37,11 +37,14 @@ def get_tasks():
 def get_task_module(task):
     module_name = "shdw.{0}.{1}".format(shdw.config.settings._TASK_DIR, task)
     shdw.__init__._logger.debug("Import task module '{0}'".format(module_name))
-    
     return (importlib.import_module(module_name), module_name)
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def get_module_functions(module, regex):
-    return [ f for f in dir(module) if re.compile(regex).match(f) ] 
+    task_list = list()
+    for task in dir(module):
+        if re.compile(regex).match(task):
+            task_list.append(task.replace(shdw.config.settings._TASK_PREFIX ,"",1))
+    return task_list
 

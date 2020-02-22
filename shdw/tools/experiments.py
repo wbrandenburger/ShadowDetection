@@ -10,14 +10,27 @@ import shdw.utils.regex
 import source.freitas.shdwDetection
 import source.silva.Shadow_Detection
 
+import cv2
 import pathlib
 import tifffile
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def read_image(path):
-    return tifffile.imread(path)
+def resize_img(img, scale):
 
+    width = int(img.shape[1] * scale / 100.)
+    height = int(img.shape[0] * scale / 100.)
+    dim = (width, height) 
+
+    img = cv2.resize(img, dim, interpolation=cv2.INTER_LINEAR)
+    return img
+
+#   function ----------------------------------------------------------------
+# ---------------------------------------------------------------------------
+def read_image(path, scale):
+    img = tifffile.imread(path)
+    img = resize_img(img, scale)
+    return img
 #   class -------------------------------------------------------------------
 # ---------------------------------------------------------------------------
 class PathCreator():
@@ -27,18 +40,18 @@ class PathCreator():
     def __init__(self, dest_dir, dest_basename, regex=".*", group=0):
         self._dest_dir = pathlib.Path(dest_dir)
         self._dest_basename = dest_basename
-        self._research = shdw.utils.regex.ReSearch(regex, group)
+        self._re_search = shdw.utils.regex.ReSearch(regex, group)
 
     #   method --------------------------------------------------------------
     # -----------------------------------------------------------------------
     def __call__(self, path):
-        return self._dest_dir / self._dest_basename.format(self._research(pathlib.Path(path).stem))
+        return self._dest_dir / self._dest_basename.format(self._re_search(pathlib.Path(path).stem))
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_data(files, dest_dir, dest_basename, io):
+def get_data(files, dest_dir, dest_basename, io, resize=100):
 
-    load = lambda path, spec: read_image(path)
+    load = lambda path, spec: read_image(path, resize)
     
     img_set = list()
     for f_set in files:
@@ -54,8 +67,8 @@ def get_data(files, dest_dir, dest_basename, io):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_shadow_freitas(files, dest_dir, dest_basename, io):
-    img_set, save = get_data(files, dest_dir, dest_basename, io)
+def get_shadow_freitas(files, dest_dir, dest_basename, io, resize=100):
+    img_set, save = get_data(files, dest_dir, dest_basename, io, resize=resize)
 
     for item in iter(img_set):
         shdw.__init__._logger.debug("Processing image '{}'".format(item[0].path))
@@ -65,8 +78,8 @@ def get_shadow_freitas(files, dest_dir, dest_basename, io):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_shadow_silva(files, dest_dir, dest_basename, io):
-    img_set, save = get_data(files, dest_dir, dest_basename, io)
+def get_shadow_silva(files, dest_dir, dest_basename, io, resize=100):
+    img_set, save = get_data(files, dest_dir, dest_basename, io, resize=resize)
 
     for item in iter(img_set):
         shdw.__init__._logger.debug("Processing image '{}'".format(item[0].path))
