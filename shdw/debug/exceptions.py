@@ -31,4 +31,4 @@ class KeyErrorJson(Exception):
         }}
 
         """.format(key)
-        super(DefaultExperimentMissing, self).__init__(message)
+        super(KeyErrorJson, self).__init__(message)

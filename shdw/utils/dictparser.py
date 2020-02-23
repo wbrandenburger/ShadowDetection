@@ -20,6 +20,7 @@ class DictParser(MutableMapping):
         self.update(data)
 
         self._regex_interpolation = re.compile("%\((.*)\)s")
+        self._regex_interpolation_value = re.compile("^_interpolation_")
 
     def __getitem__(self, key):
         return self.mapping[key]
@@ -41,12 +42,23 @@ class DictParser(MutableMapping):
     def __repr__(self):
         return f"{type(self).__name__}({self.mapping})"
 
-    def interpolate(self):
-        keys = self.keys()
-        for key in keys:
+    def interpolate(self, delete=True, out_dict=True):
+        for key in self.mapping.keys():
             self.mapping[key] = self.__recursive(self.mapping[key])
 
+        if delete:
+            self = self.del_keys()
+
+        if out_dict:
+            return dict(self)
         return self
+    
+    def del_keys(self):
+        dict_copy = DictParser()
+        for key in self.mapping.keys():
+            if not self._regex_interpolation_value.search(key):
+                dict_copy[key] = self.mapping[key]
+        return dict_copy
 
     def __recursive(self, value):
         if isinstance(value, str):
