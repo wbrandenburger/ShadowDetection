@@ -42,7 +42,7 @@ def project_data_to_img(img):
     min_max_img = (np.min(img), np.max(img))
     # img[~np.isnan(img)]
     img = (img - min_max_img[0])/(min_max_img[1] - min_max_img[0]) * 255
-    img = img.astype("uint8")
+    img = img.astype(np.uint8)
     return img
 
 def project_dict_to_img(obj):
@@ -119,5 +119,6 @@ def get_distance_transform(img, label=0, threshold=10):
     mask_non_class = ndimage.distance_transform_edt(get_label_mask(img, label_list=[label], equal=False).astype(float))
 
     distm = np.where(mask_class < threshold, mask_class, threshold) - np.where(mask_non_class < threshold, mask_non_class, threshold)
-    return project_data_to_img(distm)
+    distm = project_data_to_img(distm.astype(np.uint8))
+    return distm
 
