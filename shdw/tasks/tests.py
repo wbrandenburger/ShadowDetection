@@ -18,7 +18,7 @@ def task_default():
 def task_test_dict_parser():
     import shdw.utils.dictparser
     obj = shdw.utils.dictparser.DictParser(shdw.config.settings._SETTINGS)
-    obj.dostuff()
+    obj.interpolate()
     print(dict(obj))
 
 #   function ----------------------------------------------------------------
