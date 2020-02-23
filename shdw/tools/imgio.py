@@ -56,5 +56,3 @@ def get_image(path, spec="image", labels=dict(), msi=[0,1,2], scale=100, show=Fa
         img =  shdw.tools.imgtools.stack_image_dim(img)
 
     return img
-    
-# @todo[new]: function for determining unique tuples in lable images instead of defining a empty list

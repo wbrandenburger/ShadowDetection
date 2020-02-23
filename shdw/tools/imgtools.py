@@ -7,7 +7,7 @@
 import cv2
 import numpy as np
 from matplotlib import pyplot as plt
-import scipy
+from scipy import ndimage
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
@@ -115,8 +115,8 @@ def get_connected_components(img, connectivity=8):
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def get_distance_transform(img, label=0, threshold=10):
-    mask_class = scipy.ndimage.distance_transform_edt(get_label_mask(img, label_list=[label], equal=True).astype(float))
-    mask_non_class = scipy.ndimage.distance_transform_edt(get_label_mask(img, label_list=[label], equal=False).astype(float))
+    mask_class = ndimage.distance_transform_edt(get_label_mask(img, label_list=[label], equal=True).astype(float))
+    mask_non_class = ndimage.distance_transform_edt(get_label_mask(img, label_list=[label], equal=False).astype(float))
 
     distm = np.where(mask_class < threshold, mask_class, threshold) - np.where(mask_non_class < threshold, mask_non_class, threshold)
     return project_data_to_img(distm)
