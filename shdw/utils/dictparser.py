@@ -20,7 +20,7 @@ class DictParser(MutableMapping):
         self.update(data)
 
         self._regex_interpolation = re.compile("%\((.*)\)s")
-        self._regex_interpolation_value = re.compile("^_interpolation_")
+        self._regex_interpolation_value = re.compile("^_itrplt_")
 
     def __getitem__(self, key):
         return self.mapping[key]
@@ -80,7 +80,7 @@ class DictParser(MutableMapping):
         if hasattr(result, "group"):
             if result.group(1) in self.keys():
                 try:
-                    value = self.mapping[result.group(1)]
+                    value = value.replace("%({})s".format(result.group(1)),self.mapping[result.group(1)])
                 except KeyError:
                     raise shdw.debug.exceptions.KeyErrorJson(result.group(1))
         
