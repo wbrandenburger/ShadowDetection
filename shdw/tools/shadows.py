@@ -11,7 +11,12 @@ import source.silva.Shadow_Detection
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def new_shadow_map_freitas(files, output, scale=100):
+def new_shadow_map_freitas(
+    files, 
+    output, 
+    scale=100
+):
+    shdw.__init__._logger.debug("Start creation of shadow maps (Freitas et. al.) with settings:\n'output':\t'{}',\n'scale':\t{}".format(output, scale))
     img_set, save = shdw.tools.data.get_data(files, **output, scale=scale)
 
     for item in iter(img_set):
@@ -22,7 +27,12 @@ def new_shadow_map_freitas(files, output, scale=100):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def new_shadow_map_silva(files, output, scale=100):
+def new_shadow_map_silva(
+    files, 
+    output, 
+    scale=100
+):
+    shdw.__init__._logger.debug("Start creation of shadow maps (Silva et. al.) with settings:\n'output':\t'{}',\n'scale':\t{}".format(output, scale))
     img_set, save = shdw.tools.data.get_data(files, **output, scale=scale)
 
     for item in iter(img_set):

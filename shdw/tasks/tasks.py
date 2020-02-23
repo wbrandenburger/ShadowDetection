@@ -22,30 +22,40 @@ get_value = lambda obj, key, default: obj[key] if key in obj.keys() else default
 
 # function ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def task_new_distance_mask():
-    shdw.tools.distmask.new_distance_mask(
-        shdw.config.settings._DATA,
-        shdw.config.settings._SETTINGS["output"],
-        labels = shdw.config.settings._SETTINGS["label"]
-    )
+def task_new_distance_transform_map():
+    try:
+        shdw.tools.distmask.new_distance_transform_map(
+            shdw.config.settings._DATA,
+            shdw.config.settings._SETTINGS["output"],
+            labels = shdw.config.settings._SETTINGS["label"],
+            **shdw.config.settings._SETTINGS["param"]
+        )
+    except KeyError:
+        pass
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def task_new_shadow_map_freitas():
-    shdw.tools.shadows.new_shadow_map_freitas(
-        shdw.config.settings._DATA,
-        shdw.config.settings._SETTINGS["output"],
-        scale=get_value(shdw.config.settings._SETTINGS,"scale", 100)
-    )
+    try:
+        shdw.tools.shadows.new_shadow_map_freitas(
+            shdw.config.settings._DATA,
+            shdw.config.settings._SETTINGS["output"],
+            scale=get_value(shdw.config.settings._SETTINGS,"scale", 100)
+        )
+    except KeyError:
+        pass
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def task_new_shadow_map_silva():
-    shdw.tools.shadows.new_shadow_map_silva(
-        shdw.config.settings._DATA,
-        shdw.config.settings._SETTINGS["output"],
-        scale=get_value(shdw.config.settings._SETTINGS,"scale", 100)
-    )
+    try:
+        shdw.tools.shadows.new_shadow_map_silva(
+            shdw.config.settings._DATA,
+            shdw.config.settings._SETTINGS["output"],
+            scale=get_value(shdw.config.settings._SETTINGS,"scale", 100)
+        )
+    except KeyError:
+        pass
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
