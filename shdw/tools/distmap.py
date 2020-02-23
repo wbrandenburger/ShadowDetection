@@ -25,5 +25,4 @@ def new_distance_transfrom_map(
         shdw.__init__._logger.debug("Processing image '{}'".format(item[0].path)) 
 
         edt = shdw.tools.imgtools.get_distance_transform(item[0].data, label, threshold)
-
         save(item[0].path, edt)

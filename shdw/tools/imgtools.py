@@ -22,7 +22,11 @@ def expand_image_dim(img):
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def stack_image_dim(img):
-    return np.stack([img]*3, axis=2) if len(img.shape) != 3 else img
+    if len(img.shape) != 3:
+        return np.stack([img]*3, axis=2)
+    elif img.shape[2] == 1:
+        return np.stack([img[...,0]]*3, axis=2)
+    return img
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
@@ -37,14 +41,20 @@ def resize_img(img, scale):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
+def project_and_stack(img):
+    return stack_image_dim(project_data_to_img(img))
+
+#   function ----------------------------------------------------------------
+# ---------------------------------------------------------------------------
 def project_data_to_img(img):
     img = img.astype(float)
     min_max_img = (np.min(img), np.max(img))
-    # img[~np.isnan(img)]
     img = (img - min_max_img[0])/(min_max_img[1] - min_max_img[0]) * 255
     img = img.astype(np.uint8)
     return img
 
+#   function ----------------------------------------------------------------
+# ---------------------------------------------------------------------------
 def project_dict_to_img(obj):
     img = np.fromiter(obj.values(), dtype=np.uint8)
     return project_data_to_img(img)
@@ -119,6 +129,5 @@ def get_distance_transform(img, label=0, threshold=10):
     mask_non_class = ndimage.distance_transform_edt(get_label_mask(img, label_list=[label], equal=False).astype(float))
 
     distm = np.where(mask_class < threshold, mask_class, threshold) - np.where(mask_non_class < threshold, mask_non_class, threshold)
-    distm = project_data_to_img(distm.astype(np.uint8))
     return distm
 
