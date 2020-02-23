@@ -41,27 +41,27 @@ class DictParser(MutableMapping):
     def __repr__(self):
         return f"{type(self).__name__}({self.mapping})"
 
-    def dostuff(self):
+    def interpolate(self):
         keys = self.keys()
         for key in keys:
-            self.mapping[key] = self.recursive(self.mapping[key])
+            self.mapping[key] = self.__recursive(self.mapping[key])
 
-    def recursive(self, value):
+    def __recursive(self, value):
         if isinstance(value, str):
-            value = self.replace(value)
+            value = self.__replace(value)
             # print("String: '{}'".format(values))
         elif hasattr(value, "__iter__"):
             if isinstance(value, list):
                 for count, item in enumerate(value):
-                    value[count] = self.recursive(item)
+                    value[count] = self.__recursive(item)
                 # print("List: '{}'".format(values)) 
             else:
                 for key in value:
-                    value[key] = self.recursive(value[key])
+                    value[key] = self.__recursive(value[key])
                 # print("Dict: '{}'".format(values)) 
         return value
 
-    def replace(self, value):
+    def __replace(self, value):
         result = self._regex_interpolation.search(value)
         if hasattr(result, "group"):
             if result.group(1) in self.keys():
