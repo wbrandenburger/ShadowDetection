@@ -10,6 +10,11 @@ from matplotlib import pyplot as plt
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
+def bool_img_to_uint8(img):
+    return img.astype(np.uint8)*255
+
+#   function ----------------------------------------------------------------
+# ---------------------------------------------------------------------------
 def expand_image_dim(img):
     return np.expand_dims(img, axis=2) if len(img.shape) != 3 else img
 
@@ -72,10 +77,38 @@ def get_label_image(img, label, value, equal=True):
     img_label = img.copy()
     for c in range(img.shape[-1]):
         if equal:
-            mask = np.ma.masked_where(label[...,-1] != value, img[...,c])
-        else:
             mask = np.ma.masked_where(label[...,-1] == value, img[...,c])
+        else:
+            mask = np.ma.masked_where(label[...,-1] != value, img[...,c])
                     
         np.ma.set_fill_value(mask, 0)
-        img_label[:,:,c] = mask.filled()
+        img_label[..., c] = mask.filled()
     return img_label
+
+#   function ----------------------------------------------------------------
+# ---------------------------------------------------------------------------
+def get_label_mask(label, label_list=None, equal=True):
+    if not label_list:
+        label_list = np.unique(label)
+
+    label_mask = np.ndarray(
+        (label.shape[0], label.shape[1], len(label_list)), 
+        dtype=np.uint8
+    )
+
+    for c, l in enumerate(label_list):
+        if equal:
+            mask = np.ma.masked_where(label == l, label)
+        else:
+            mask = np.ma.masked_where(label != l, label)
+                    
+        label_mask[..., c] = bool_img_to_uint8(mask.mask)
+    return label_mask
+
+#   function ----------------------------------------------------------------
+# ---------------------------------------------------------------------------
+def get_connected_components(img, connectivity=4):
+
+    # Perform the operation
+    return cv2.connectedComponentsWithStats(img, connectivity, cv2.CV_32S)
+    

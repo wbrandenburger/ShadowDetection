@@ -15,7 +15,7 @@ import tifffile
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def read_image(path):
-    shdw.__init__._logger.debug("Read image '{}'".format(path))
+    shdw.__init__._logger.debug("[READ] '{}'".format(path))
     
     if str(path).endswith(".tif"):
         return tifffile.imread(path)
@@ -25,7 +25,7 @@ def read_image(path):
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def save_image(dest,  img):
-    shdw.__init__._logger.debug("Save img to '{}'".format(dest))
+    shdw.__init__._logger.debug("[SAVE] '{}'".format(dest))
 
     if str(dest).endswith(".tif"):
         tifffile.imwrite(dest, img)
@@ -35,7 +35,7 @@ def save_image(dest,  img):
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def copy_image(path,  dest):
-    shdw.__init__._logger.debug("Copy img to '{}'".format(dest))
+    shdw.__init__._logger.debug("[COPY] '{}'".format(dest))
     shutil.copy2(path, dest)
 
 #   function ----------------------------------------------------------------
