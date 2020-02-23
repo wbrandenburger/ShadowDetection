@@ -46,6 +46,8 @@ class DictParser(MutableMapping):
         for key in keys:
             self.mapping[key] = self.__recursive(self.mapping[key])
 
+        return self
+
     def __recursive(self, value):
         if isinstance(value, str):
             value = self.__replace(value)
