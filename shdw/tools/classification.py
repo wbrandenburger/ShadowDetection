@@ -13,13 +13,15 @@ import numpy as np
 # ---------------------------------------------------------------------------
 def new_mlp_classification(
     files, 
+    specs,
     output,
     scale=100, 
     param_label=dict(), 
 ):
-    shdw.__init__._logger.debug("Start creation of maximum likelihood classification with settings:\n'output':\t'{}',\n'scale':\t'{}',\n'".format(output, scale))
+    shdw.__init__._logger.debug("Start creation of maximum likelihood classification with settings:\n'specs':\t'{}',\n'output':\t'{}',\n'scale':\t'{}'".format(specs, output, scale))
 
-    # img_set, save = shdw.tools.data.get_data(files, **output, scale=scale, param_label=param_label, default_spec="label", show=False, live=True)
+    img_set, save = shdw.tools.data.get_data(files, specs=specs, **output, scale=scale, param_label=param_label, show=False, live=True)
 
-    # for item in iter(img_set):
+    for item in iter(img_set):
+        print(item[0].path)
     #     item[0].path # save()
