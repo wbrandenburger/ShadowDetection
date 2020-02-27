@@ -10,6 +10,7 @@ import shdw.utils.format
 
 import shdw.tools.distmap
 import shdw.tools.shadows
+import shdw.tools.classification
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
@@ -19,6 +20,19 @@ def task_default():
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 get_value = lambda obj, key, default: obj[key] if key in obj.keys() else default
+
+# function ------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+def task_mlp():
+    try:
+        shdw.tools.distmap.new_distance_transform_map(
+            shdw.config.settings._DATA,
+            shdw.config.settings._SETTINGS["output"],
+            param_label = shdw.config.settings._SETTINGS["param_label"],
+            # **shdw.config.settings._SETTINGS["param"]
+        )
+    except KeyError:
+        pass
 
 # function ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
