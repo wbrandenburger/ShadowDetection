@@ -27,7 +27,7 @@ def task_mlp():
     try:
         shdw.tools.classification.new_mlp_classification(
             shdw.config.settings._DATA,
-            rsvis.config.settings._SETTINGS["data-tensor-types"],
+            shdw.config.settings._SETTINGS["data-tensor-types"],
             shdw.config.settings._SETTINGS["output"],
             param_label = shdw.config.settings._SETTINGS["param_label"],
             # **shdw.config.settings._SETTINGS["param"]
