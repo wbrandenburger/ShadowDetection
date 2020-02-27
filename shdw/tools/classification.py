@@ -26,7 +26,7 @@ def new_mlp_classification(
     for item in iter(img_set):
         print(item[0].path)
 
-        imgstats = shdw.tools.imagestats.ImageStats(cat=param_label.values(), channels=1)
-        imgstats(item[specs.index("msi")].data[...,0], item[specs.index("label")].data) 
+        imgstats = shdw.tools.imagestats.ImageStats(cat=param_label.values(), channels=8)
+        imgstats(item[specs.index("msi")].data, item[specs.index("label")].data) 
         print(imgstats)
     #     item[0].path # save()
