@@ -18,7 +18,7 @@ def new_mlp_classification(
     scale=100, 
     param_label=dict(), 
 ):
-    shdw.__init__._logger.debug("Start creation of maximum likelihood classification with settings:\n'specs':\t'{}',\n'output':\t'{}',\n'scale':\t'{}',\n'param_label':\t'{}'".format(specs, output, scale, param_label))
+    shdw.__init__._logger.debug("Start creation of maximum likelihood classification map with settings:\n'specs':\t'{}',\n'output':\t'{}',\n'scale':\t'{}',\n'param_label':\t'{}'".format(specs, output, scale, param_label))
 
     img_set, save = shdw.tools.data.get_data(files, specs=specs, **output, scale=scale, param_label=param_label, show=False, live=True)
 
