@@ -12,9 +12,9 @@ import os
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_data(files, path_dir=os.environ.get("TEMP"), path_name="{}", regex=[".*", 0], scale=100, labels=dict(), default_spec="image", show=False, live=True):
+def get_data(files, path_dir=os.environ.get("TEMP"), path_name="{}", regex=[".*", 0], scale=100, param_label=dict(), default_spec="image", show=False, live=True):
 
-    load = lambda path, spec: shdw.tools.imgio.get_image(path, spec=spec, labels=labels, scale=scale, show=show)
+    load = lambda path, spec: shdw.tools.imgio.get_image(path, spec=spec, param_label=param_label, scale=scale, show=show)
     
     img_set = list() 
     for f_set in files:

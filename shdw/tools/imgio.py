@@ -40,19 +40,12 @@ def copy_image(path,  dest):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_image(path, spec="image", labels=dict(), msi=[0,1,2], scale=100, show=False):
+def get_image(path, spec="image", param_label=dict(), scale=100, show=False):
     img = shdw.tools.imgtools.resize_img(read_image(path), scale)
-
-    if labels and spec == "label":
-        img = shdw.tools.imgtools.labels_to_image(img, labels)
-
+    if param_label and spec == "label":
+        img = shdw.tools.imgtools.labels_to_image(img, param_label)
     if show and spec in ["label", "height", "msi"]:
         img = shdw.tools.imgtools.project_data_to_img(img)
-
-    if msi and spec == "msi":
-        img = np.stack((img[:,:,msi[0][0]], img[:,:,msi[0][1]], img[:,:,msi[0][2]]), axis=2)
-
     if show:
         img =  shdw.tools.imgtools.stack_image_dim(img)
-
     return img

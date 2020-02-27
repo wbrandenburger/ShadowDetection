@@ -131,3 +131,7 @@ def get_distance_transform(img, label=0, threshold=10):
     distm = np.where(mask_class < threshold, mask_class, threshold) - np.where(mask_non_class < threshold, mask_non_class, threshold)
     return distm
 
+#   function ----------------------------------------------------------------
+# ---------------------------------------------------------------------------
+def get_sub_img(img, channels):
+    return img[...,channels]

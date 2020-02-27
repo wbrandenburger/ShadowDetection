@@ -8,7 +8,7 @@ import shdw.__init__
 import shdw.config.settings
 import shdw.utils.format
 
-import shdw.tools.distmask
+import shdw.tools.distmap
 import shdw.tools.shadows
 
 #   function ----------------------------------------------------------------
@@ -24,10 +24,10 @@ get_value = lambda obj, key, default: obj[key] if key in obj.keys() else default
 # ---------------------------------------------------------------------------
 def task_new_distance_transform_map():
     try:
-        shdw.tools.distmask.new_distance_transform_map(
+        shdw.tools.distmap.new_distance_transform_map(
             shdw.config.settings._DATA,
             shdw.config.settings._SETTINGS["output"],
-            labels = shdw.config.settings._SETTINGS["label"],
+            param_label = shdw.config.settings._SETTINGS["param_label"],
             **shdw.config.settings._SETTINGS["param"]
         )
     except KeyError:
