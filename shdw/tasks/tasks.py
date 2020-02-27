@@ -25,7 +25,7 @@ get_value = lambda obj, key, default: obj[key] if key in obj.keys() else default
 # ---------------------------------------------------------------------------
 def task_mlp():
     try:
-        shdw.tools.distmap.new_distance_transform_map(
+        shdw.tools.classifiation.new_mlp_classification(
             shdw.config.settings._DATA,
             shdw.config.settings._SETTINGS["output"],
             param_label = shdw.config.settings._SETTINGS["param_label"],
