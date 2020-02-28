@@ -32,6 +32,7 @@ def new_mlp_classification(
             img = item[specs.index("msi")].data[label_masks[...,label],0]
             if len(img):
                 stats[label].update(img)
+        print(stats)
     
         #save(item[0].path, label_masks[...,[0,1,2]])
         # print(item[0].path)
