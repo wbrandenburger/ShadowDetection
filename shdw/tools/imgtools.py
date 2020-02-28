@@ -104,7 +104,7 @@ def get_label_mask(label, label_list=list(), equal=True):
 
     label_mask = np.ndarray(
         (label.shape[0], label.shape[1], len(label_list)), 
-        dtype=np.uint8
+        dtype=bool
     )
 
     for c, l in enumerate(label_list):
@@ -113,7 +113,8 @@ def get_label_mask(label, label_list=list(), equal=True):
         else:
             mask = np.ma.masked_where(label != l, label)
                     
-        label_mask[..., c] = bool_img_to_uint8(mask.mask)
+        # label_mask[..., c] = bool_img_to_uint8(mask.mask)
+        label_mask[..., c] = mask.mask
     return label_mask
 
 #   function ----------------------------------------------------------------
