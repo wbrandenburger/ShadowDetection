@@ -98,7 +98,7 @@ def get_label_image(img, label, value, equal=True):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_label_mask(label, label_list=None, equal=True):
+def get_label_mask(label, label_list=list(), equal=True):
     if not label_list:
         label_list = np.unique(label)
 
