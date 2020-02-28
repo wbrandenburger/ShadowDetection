@@ -25,7 +25,7 @@ def new_mlp_classification(
     img_set, save = shdw.tools.data.get_data(files, specs=specs, **output, scale=scale, param_label=param_label, show=False, live=True)
 
     # stats = [shdw.tools.welford.Welford()]*len(param_label)
-    stats = [None]*param_label
+    stats = [None]*len(param_label)
     for label in range(len(param_label)):
         stats[label] = shdw.tools.welford.Welford()
 
