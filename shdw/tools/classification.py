@@ -24,15 +24,18 @@ def new_mlp_classification(
 
     img_set, save = shdw.tools.data.get_data(files, specs=specs, **output, scale=scale, param_label=param_label, show=False, live=True)
 
-    stats = [shdw.tools.welford.Welford()]*len(param_label)
-    print(stats)
+    # stats = [shdw.tools.welford.Welford()]*len(param_label)
+    stats = [None]*param_label
+    for label in range(len(param_label)):
+        stats[label] = shdw.tools.welford.Welford()
+
     for item in iter(img_set):
         label_masks = shdw.tools.imgtools.get_label_mask(item[specs.index("label")].data, param_label.values())
         for label in range(len(param_label.keys())):
             img = item[specs.index("msi")].data[label_masks[...,label],0]
             for i in img:
                 stats[label].update(i)
-        print(stats)        
+            print(stats)        
     
         #save(item[0].path, label_masks[...,[0,1,2]])
         # print(item[0].path)
