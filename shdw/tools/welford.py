@@ -71,7 +71,16 @@ class Welford(object):
     def ss(self):
         return self._mean, self._std/math.sqrt(self._num)
 
-    def update(self,x):
+    def update(self, lst):
+        if lst is None:
+            return
+        if hasattr(lst, "__iter__"):
+            for x in lst:
+                self.update_welford(x)
+        else:
+            self.update_welford(lst)
+
+    def update_welford(self, x):
         if x is None:
             return
         new_mean = self._mean + (x - self._mean)*1./self._num

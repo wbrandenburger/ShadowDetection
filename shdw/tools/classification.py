@@ -33,8 +33,8 @@ def new_mlp_classification(
         label_masks = shdw.tools.imgtools.get_label_mask(item[specs.index("label")].data, param_label.values())
         for label in range(len(param_label.keys())):
             img = item[specs.index("msi")].data[label_masks[...,label],0]
-            for i in img:
-                stats[label].update(i)
+            # for i in img:
+            stats[label].update(img)
             print(stats)        
     
         #save(item[0].path, label_masks[...,[0,1,2]])
