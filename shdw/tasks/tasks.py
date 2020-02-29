@@ -25,22 +25,32 @@ get_value = lambda obj, key, default: obj[key] if key in obj.keys() else default
 # ---------------------------------------------------------------------------
 def task_mlp():
     try:
-        shdw.tools.classification.new_mlp_classification(
-            shdw.config.settings._DATA,
+        stats = shdw.tools.classification.new_mlp_classification_stats(
+            shdw.config.settings.get_data(setting="training"),
             shdw.config.settings._SETTINGS["data-tensor-types"],
             shdw.config.settings._SETTINGS["output"],
-            param_label = shdw.config.settings._SETTINGS["param_label"],
-            # **shdw.config.settings._SETTINGS["param"]
+            param_label=shdw.config.settings._SETTINGS["param_label"],
+            param=shdw.config.settings._SETTINGS["param"]
+        )
+
+        shdw.tools.classification.new_mlp_classification_map(
+            stats,
+            shdw.config.settings.get_data(setting="test"),
+            shdw.config.settings._SETTINGS["data-tensor-types"],
+            shdw.config.settings._SETTINGS["output"],
+            param_label=shdw.config.settings._SETTINGS["param_label"],
+            param=shdw.config.settings._SETTINGS["param"]
         )
     except KeyError:
-        pass
+        return
 
 # function ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def task_new_distance_transform_map():
+def task_new_distance_transform_map(setting="training"):
     try:
         shdw.tools.distmap.new_distance_transform_map(
-            shdw.config.settings._DATA,
+            shdw.config.settings.get_data(setting),
+            shdw.config.settings._SETTINGS["data-tensor-types"],
             shdw.config.settings._SETTINGS["output"],
             param_label = shdw.config.settings._SETTINGS["param_label"],
             **shdw.config.settings._SETTINGS["param"]
@@ -50,10 +60,11 @@ def task_new_distance_transform_map():
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def task_new_shadow_map_freitas():
+def task_new_shadow_map_freitas(setting="training"):
     try:
         shdw.tools.shadows.new_shadow_map_freitas(
-            shdw.config.settings._DATA,
+            shdw.config.settings.get_data(setting),
+            shdw.config.settings._SETTINGS["data-tensor-types"],
             shdw.config.settings._SETTINGS["output"],
             scale=get_value(shdw.config.settings._SETTINGS,"scale", 100)
         )
@@ -62,10 +73,10 @@ def task_new_shadow_map_freitas():
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def task_new_shadow_map_silva():
+def task_new_shadow_map_silva(setting="training"):
     try:
         shdw.tools.shadows.new_shadow_map_silva(
-            shdw.config.settings._DATA,
+            shdw.config.settings.get_data(setting),
             shdw.config.settings._SETTINGS["output"],
             scale=get_value(shdw.config.settings._SETTINGS,"scale", 100)
         )
@@ -88,4 +99,4 @@ def task_print_user_data():
     
     # print user's defined data
     shdw.__init__._logger.info("Print user's defined data")
-    shdw.utils.format.print_data(shdw.config.settings._DATA)
+    shdw.utils.format.print_data(shdw.config.settings.get_data_dict())

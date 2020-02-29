@@ -68,8 +68,8 @@ class Welford(object):
         return self._mean, self._std/math.sqrt(self._num)
     
     @property
-    def ss(self):
-        return self._mean, self._std/math.sqrt(self._num)
+    def stats(self):
+        return self._mean, self.std
 
     def update(self, lst):
         if lst is None:

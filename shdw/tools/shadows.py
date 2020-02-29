@@ -13,6 +13,7 @@ import source.silva.Shadow_Detection
 # ---------------------------------------------------------------------------
 def new_shadow_map_freitas(
     files, 
+    specs,
     output, 
     scale=100
 ):
@@ -28,7 +29,8 @@ def new_shadow_map_freitas(
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def new_shadow_map_silva(
-    files, 
+    files,
+    specs,
     output, 
     scale=100
 ):

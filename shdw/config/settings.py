@@ -12,7 +12,7 @@ import os
 #   settings ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 _SETTINGS = dict()
-_DATA = list() 
+_DATA_SETTINGS = ["training", "test", "validation"]
 
 _TASK_DIR = "tasks"
 _TASK_SPEC_NAME = "tasks"
@@ -39,12 +39,20 @@ def get_settings(path):
     shdw.__init__._logger.debug("Read settings file {0}:".format(path))
     _SETTINGS = shdw.utils.yaml.yaml_to_data(path, raise_exception=True)
     
-    get_data()
-
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def get_data(setting = "training"):
-    global _DATA
     if setting in _SETTINGS.keys():
         with open(_SETTINGS[setting]) as f:
-            _DATA = [line.split() for line in f]
+            return [line.split() for line in f]
+
+#   function ----------------------------------------------------------------
+# ---------------------------------------------------------------------------
+def get_data_dict():
+    data = dict()
+
+    for item in _DATA_SETTINGS:
+        if item in _SETTINGS.keys():
+            data[item] = get_data(setting=item)
+    
+    return data
