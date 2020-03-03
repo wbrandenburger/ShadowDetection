@@ -8,6 +8,7 @@ import shdw.tools.data
 import shdw.tools.imgtools
 import shdw.tools.imagestats
 import shdw.tools.welford
+import shdw.tools.evaluation
 
 import numpy as np
 
@@ -50,22 +51,42 @@ def new_mlp_classification_map(
     specs,
     output,
     param_label=dict(),
+    param_specs=list(),
     scale=100,
     param=dict(),
+    log=None
 
 ):    
     img_set_test, save = shdw.tools.data.get_data(files, specs=specs, **output, scale=scale, param_label=param_label, show=False, live=True)
 
+    eval_labeled_img = list()
+    for channel in param["channels"]:
+        eval_labeled_img.append(
+            [
+                shdw.tools.evaluation.EvalLabeledImg(list(param_label.values()), index=param_specs),
+                shdw.tools.evaluation.ConfusionMap(list(param_label.values()), index=param_specs)            
+            ]
+        )
+
     for item in iter(img_set_test):
-        img_labeled = get_labeled_img_from_stats(
+        labeled_img = get_labeled_img_from_stats(
             stats, 
             item[specs.index("msi")].data
             # item[specs.index("msi")].data[..., param["channels"]]
         )
-        save(
-            item[0].path, 
-            shdw.tools.imgtools.project_data_to_img(img_labeled)
-        )
+
+        save(item[0].path, shdw.tools.imgtools.project_data_to_img(labeled_img))
+        label = item[specs.index("label")].data
+        for count, channel in enumerate(param["channels"]):
+            eval_labeled_img[count][0].update(labeled_img[...,channel], label)
+            eval_labeled_img[count][1].update(labeled_img[...,channel], label)
+    
+    if log:
+        with open(log, 'w+') as f:
+            for count, channel in enumerate(param["channels"]):
+                f.write("Classification report for channel '{}'\n{}\n\n".format(channel, eval_labeled_img[count][0].to_string()))
+
+                f.write("Confusion Map for channel '{}'\n{}\n\n".format(channel, eval_labeled_img[count][1].to_string()))
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------

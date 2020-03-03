@@ -39,7 +39,9 @@ def task_mlp():
             shdw.config.settings._SETTINGS["data-tensor-types"],
             shdw.config.settings._SETTINGS["output"],
             param_label=shdw.config.settings._SETTINGS["param_label"],
-            param=shdw.config.settings._SETTINGS["param"]
+            param_specs=shdw.config.settings._SETTINGS["param_specs"],
+            param=shdw.config.settings._SETTINGS["param"],
+            log=shdw.config.settings._SETTINGS["log"]
         )
     except KeyError:
         return
