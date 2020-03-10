@@ -44,6 +44,11 @@ class ImgListContainer(list):
             )
         )
 
+    def spec(self, spec):
+        for item in self:
+            if item.spec==spec:
+                return item
+
     # @todo[new]: method __repr__
 
 #   class -------------------------------------------------------------------

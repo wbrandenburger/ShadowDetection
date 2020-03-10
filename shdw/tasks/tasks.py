@@ -9,6 +9,7 @@ import shdw.config.settings
 import shdw.utils.format
 
 import shdw.tools.distmap
+import shdw.tools.normalmap
 import shdw.tools.shadows
 import shdw.tools.classification
 
@@ -48,6 +49,31 @@ def task_mlp():
 
 # function ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
+def task_mlp_mv():
+    try:
+        stats = shdw.tools.classification.new_mlp_classification_stats(
+            shdw.config.settings.get_data(setting="training"),
+            shdw.config.settings._SETTINGS["data-tensor-types"],
+            shdw.config.settings._SETTINGS["output"],
+            param_label=shdw.config.settings._SETTINGS["param_label"],
+            param=shdw.config.settings._SETTINGS["param"]
+        )
+
+        shdw.tools.classification.new_mlp_mv_classification_map(
+            stats,
+            shdw.config.settings.get_data(setting="test"),
+            shdw.config.settings._SETTINGS["data-tensor-types"],
+            shdw.config.settings._SETTINGS["output"],
+            param_label=shdw.config.settings._SETTINGS["param_label"],
+            param_specs=shdw.config.settings._SETTINGS["param_specs"],
+            param=shdw.config.settings._SETTINGS["param"],
+            log=shdw.config.settings._SETTINGS["log"]
+        )
+    except KeyError:
+        return
+
+# function ------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 def task_new_distance_transform_map(setting="training"):
     try:
         shdw.tools.distmap.new_distance_transform_map(
@@ -59,6 +85,19 @@ def task_new_distance_transform_map(setting="training"):
         )
     except KeyError:
         pass
+
+# function ------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+def task_new_normal_map(setting="training"):
+    try:
+        shdw.tools.normalmap.new_normal_map(
+            shdw.config.settings.get_data(setting),
+            shdw.config.settings._SETTINGS["data-tensor-types"],
+            shdw.config.settings._SETTINGS["output"]
+        )
+    except KeyError:
+        pass
+
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
