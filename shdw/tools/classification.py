@@ -52,7 +52,7 @@ def new_mlp_classification_map(
     specs,
     output,
     param_label=dict(),
-    param_specs=list(),
+    param_class=list(),
     scale=100,
     param=dict(),
     log=None
@@ -64,8 +64,8 @@ def new_mlp_classification_map(
     for channel in param["channels"]:
         eval_labeled_img.append(
             [
-                shdw.tools.evaluation.EvalLabeledImg(list(param_label.values()), index=param_specs),
-                shdw.tools.evaluation.ConfusionMap(list(param_label.values()), index=param_specs)            
+                shdw.tools.evaluation.EvalLabeledImg(list(param_label.values()), index=param_class),
+                shdw.tools.evaluation.ConfusionMap(list(param_label.values()), index=param_class)            
             ]
         )
 
@@ -76,7 +76,7 @@ def new_mlp_classification_map(
             # item[specs.index("msi")].data[..., param["channels"]]
         )
 
-        save(item[0].path, shdw.tools.imgtools.project_data_to_img(labeled_img))
+        save(item[0].path, shdw.tools.imgtools.project_data_to_img(labeled_img, dtype=np.uint8, factor=255))
         label = item[specs.index("label")].data
         for count, channel in enumerate(param["channels"]):
             eval_labeled_img[count][0].update(labeled_img[...,channel], label)
@@ -97,7 +97,7 @@ def new_mlp_mv_classification_map(
     specs,
     output,
     param_label=dict(),
-    param_specs=list(),
+    param_class=list(),
     scale=100,
     param=dict(),
     log=None
@@ -106,8 +106,8 @@ def new_mlp_mv_classification_map(
     img_set_test, save = shdw.tools.data.get_data(files, specs=specs, **output, scale=scale, param_label=param_label, show=False, live=True)
 
     eval_labeled_img = [
-        shdw.tools.evaluation.EvalLabeledImg(list(param_label.values()), index=param_specs),
-        shdw.tools.evaluation.ConfusionMap(list(param_label.values()), index=param_specs)            
+        shdw.tools.evaluation.EvalLabeledImg(list(param_label.values()), index=param_class),
+        shdw.tools.evaluation.ConfusionMap(list(param_label.values()), index=param_class)            
     ]
 
     for item in iter(img_set_test):
@@ -116,7 +116,7 @@ def new_mlp_mv_classification_map(
             item[specs.index("msi")].data
         )
 
-        save(item[0].path, shdw.tools.imgtools.project_data_to_img(labeled_img))
+        save(item[0].path, shdw.tools.imgtools.project_data_to_img(labeled_img, dtype=np.uint8, factor=255))
         label = item[specs.index("label")].data
 
         eval_labeled_img[0].update(labeled_img, label)

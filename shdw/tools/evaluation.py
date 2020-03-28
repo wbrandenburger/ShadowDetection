@@ -8,23 +8,9 @@ import shdw.tools.imgtools
 import sklearn
 import numpy as np
 import pandas as pd
-#   function ----------------------------------------------------------------
+
+#   class -------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def evaluation_attempt(prediction, truth, log, specifier=None, **kwargs):
-    if len(prediction.shape)==2:
-        prediction = shdw.tools.imgtools.expand_image_dim(prediction)
-
-    with open(log, 'w+') as f:
-        for channel in range(prediction.shape[2]):
-            f.write("Classification report for channel '{}' of image '{}'".format(channel, specifier))
-            f.write(
-                sklearn.metrics.classification_report(
-                    prediction[..., channel].reshape(-1, 1), 
-                    truth.reshape(-1, 1),
-                    **kwargs
-                )
-            )
-
 class ConfusionMap():
 
     # https://www.sciencedirect.com/topics/engineering/confusion-matrix
@@ -68,6 +54,8 @@ class ConfusionMap():
     def __repr__(self):
         return self.to_string()
 
+#   class -------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 class EvalLabeledImg:
 
     def __init__(self, labels, index=None):
@@ -77,8 +65,10 @@ class EvalLabeledImg:
             self._index = range(len(self.labels))
         # tp, fp, tn, fn (p=tp+fp, n=tn,fn)
         self._scores = np.zeros((len(self._labels), 4), dtype=float)
+        self._acc = 0 
     
     def update(self, pred, truth):
+        self._acc += np.count_nonzero(pred==truth)/pred.shape[0]*pred.shape[1]
         for l in self._labels:
             l_pred = pred == l
             l_truth = truth == l

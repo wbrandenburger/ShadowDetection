@@ -95,7 +95,7 @@ def read_height_map(path):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_normal_image(img, height, verbose=False, show=False):
+def get_normal_image(img, height, bins=None, verbose=False, show=False):
     data = get_colorized_height_map(img, height, show=show)
 
     # create a temporary file
@@ -103,15 +103,21 @@ def get_normal_image(img, height, verbose=False, show=False):
     write_height_map(img, data, path)
 
     compute_normals(path, verbose=verbose)
-    data = read_height_map(path)[["nx", "ny", "nz"]].to_numpy() 
-    
-    hm = data[:,2].reshape(height.shape[0:2])*(-1)+1
-    hm = hm + np.min(hm[hm>0])
-    hm = -np.log(hm)
-    print(np.max(hm[hm<np.inf]))
-    y = np.max(hm[hm<np.inf])
-    return hm
 
+    normals = read_height_map(path)["nz"].to_numpy().reshape(height.shape)*(-1.)+1. 
+    normals = np.where(normals>0., normals, np.min(normals[normals>0.]))
+    normals = shdw.tools.imgtools.project_data_to_img(-np.log(normals))
+
+    if bins:
+        normals = np.ceil(normals*bins)
+        normals = (np.where(normals==0., 1., normals) - 1.)/(bins-1.)
+
+    return normals
+
+    # plt.hist(hm.reshape(-1,1),bins="auto", histtype="step")
+    # print(np.unique(hm))
+    # plt.show()
+    
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def compute_normals(path, verbose=False):

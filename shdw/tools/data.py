@@ -28,7 +28,7 @@ def get_data(files, path_dir=os.environ.get("TEMP"), path_name="{}", regex=[".*"
         img_set.append(img)
 
     get_path = shdw.utils.general.PathCreator(path_dir, path_name, *regex)
-    save = lambda path, img: shdw.tools.imgio.save_image(get_path(path), img)
+    save = lambda path, img, index=None: shdw.tools.imgio.save_image(get_path(path, index), img)
 
     return img_set, save
 

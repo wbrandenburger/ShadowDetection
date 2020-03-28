@@ -8,10 +8,12 @@ import shdw.__init__
 import shdw.config.settings
 import shdw.utils.format
 
+import shdw.tools.classification
 import shdw.tools.distmap
+import shdw.tools.gaussianmap
 import shdw.tools.normalmap
 import shdw.tools.shadows
-import shdw.tools.classification
+import shdw.tools.tiles
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
@@ -40,7 +42,7 @@ def task_mlp():
             shdw.config.settings._SETTINGS["data-tensor-types"],
             shdw.config.settings._SETTINGS["output"],
             param_label=shdw.config.settings._SETTINGS["param_label"],
-            param_specs=shdw.config.settings._SETTINGS["param_specs"],
+            param_class=shdw.config.settings._SETTINGS["param_class"],
             param=shdw.config.settings._SETTINGS["param"],
             log=shdw.config.settings._SETTINGS["log"]
         )
@@ -65,7 +67,7 @@ def task_mlp_mv():
             shdw.config.settings._SETTINGS["data-tensor-types"],
             shdw.config.settings._SETTINGS["output"],
             param_label=shdw.config.settings._SETTINGS["param_label"],
-            param_specs=shdw.config.settings._SETTINGS["param_specs"],
+            param_class=shdw.config.settings._SETTINGS["param_class"],
             param=shdw.config.settings._SETTINGS["param"],
             log=shdw.config.settings._SETTINGS["log"]
         )
@@ -93,7 +95,36 @@ def task_new_normal_map(setting="training"):
         shdw.tools.normalmap.new_normal_map(
             shdw.config.settings.get_data(setting),
             shdw.config.settings._SETTINGS["data-tensor-types"],
-            shdw.config.settings._SETTINGS["output"]
+            shdw.config.settings._SETTINGS["output"],
+            scale=get_value(shdw.config.settings._SETTINGS,"scale", 100),
+            **shdw.config.settings._SETTINGS["param"]
+        )
+    except KeyError:
+        pass
+
+# function ------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+def task_new_gaussian_map(setting="training"):
+    try:
+        shdw.tools.gaussianmap.new_gaussian_map(
+            shdw.config.settings.get_data(setting),
+            shdw.config.settings._SETTINGS["data-tensor-types"],
+            shdw.config.settings._SETTINGS["output"],
+            param_label = shdw.config.settings._SETTINGS["param_label"],
+            **shdw.config.settings._SETTINGS["param"]
+        )
+    except KeyError:
+        pass
+
+# function ------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+def task_new_tiles(setting="training"):
+    try:
+        shdw.tools.tiles.new_tiles(
+            shdw.config.settings.get_data(setting),
+            shdw.config.settings._SETTINGS["data-tensor-types"],
+            shdw.config.settings._SETTINGS["output"],
+            **shdw.config.settings._SETTINGS["param"]
         )
     except KeyError:
         pass
