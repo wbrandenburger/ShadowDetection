@@ -4,8 +4,9 @@
 
 #   import ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-import shdw.tools.data
-import shdw.tools.imgtools
+from shdw.__init__ import _logger
+import shdw.utils.imgio
+import shdw.utils.imgtools
 
 import numpy as np
 
@@ -13,21 +14,25 @@ import numpy as np
 # ---------------------------------------------------------------------------
 def new_tiles(
     files,
-    specs,
-    output,
+    param_specs,
+    param_io,
+    param_show=dict(),
     param=dict(),
-    tiles=None
 ):
-    shdw.__init__._logger.debug("Start creation of normal maps with settings:\n'output':\t'{}',\n'param':\t'{}',\n".format(output, param))
-    img_set, save = shdw.tools.data.get_data(files, **output, specs=specs)
+    _logger.debug("Start creation of normal maps with settings:\nparam_specs:\t{},\nparam_io:\t{},\nparam_show:\t{},\nparam:\t{}".format(param_specs, param_io, param_show, param))
 
-    for item_list in iter(img_set):
-        shdw.__init__._logger.debug("Processing image '{}'".format(item_list[0].path)) 
+    #   settings ------------------------------------------------------------
+    # -----------------------------------------------------------------------
+    img_in, img_out, _, _ = shdw.utils.imgio.get_data(files, param_specs, param_io, param_show=param_show)
+
+    for item_list in img_in:
         for index, item in enumerate(item_list):
-            shdw.__init__._logger.debug("Processing image '{}'".format(item.path)) 
+            _logger.debug("Processing image '{}'".format(item.path)) 
         
-            img = shdw.tools.imgtools.expand_image_dim(item.data)
-            if not tiles:
+            img = shdw.utils.imgtools.expand_image_dim(item.data)
+            try:
+                tiles = param["tiles"]
+            except KeyError:
                 tiles = img.shape
 
-            save(item.path, img[0:tiles[0], 0:tiles[1], :], index=index)
+            img_out(item.path, img[0:tiles[0], 0:tiles[1], :], index=index)

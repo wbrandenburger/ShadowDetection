@@ -96,6 +96,7 @@ def labels_to_image(img, labels):
 # ---------------------------------------------------------------------------
 def get_label_image(img, label, value, equal=True):
     shdw.__init__._logger.debug("Create label image '{}' with value '{}'".format(np.unique(label), value))
+
     img_label = img.copy()
     for c in range(img.shape[-1]):
         if equal:
@@ -109,13 +110,13 @@ def get_label_image(img, label, value, equal=True):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_label_mask(label, label_list=list(), equal=True):
+def get_label_mask(label, label_list=None, equal=True):
     if not label_list:
         label_list = np.unique(label)
 
     label_mask = np.ndarray(
         (label.shape[0], label.shape[1], len(label_list)), 
-        dtype=bool
+        dtype=np.uint8
     )
 
     for c, l in enumerate(label_list):
@@ -124,8 +125,7 @@ def get_label_mask(label, label_list=list(), equal=True):
         else:
             mask = np.ma.masked_where(label != l, label)
                     
-        # label_mask[..., c] = bool_img_to_uint8(mask.mask)
-        label_mask[..., c] = mask.mask
+        label_mask[..., c] = bool_img_to_uint8(mask.mask)
     return label_mask
 
 #   function ----------------------------------------------------------------
@@ -147,11 +147,3 @@ def get_distance_transform(img, label=0, threshold=10):
 # ---------------------------------------------------------------------------
 def get_sub_img(img, channels):
     return img[...,channels]
-
-#   function ----------------------------------------------------------------
-# ---------------------------------------------------------------------------
-def gaussian_kernel(height, width, sigma=0.2, mu=0.0):
-    x, y = np.meshgrid(np.linspace(-1, 1, width), np.linspace(-1, 1, height))
-    d = np.sqrt(x*x+y*y)
-    kernel = (np.exp(-((d-mu)**2 / (2.0 * sigma**2)))) / np.sqrt(2 * np.pi * sigma**2)
-    return kernel # / gaussian_k.sum()

@@ -4,26 +4,30 @@
 
 #   import ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-import shdw.tools.data
+from shdw.__init__ import _logger
 import shdw.tools.heightmap
+import shdw.utils.imgio
+import shdw.utils.imgtools
 
 import numpy as np
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def new_normal_map(
-    files,
-    specs,
-    output,
-    scale=100,
-    bins=None,
-    show=False
+    files, 
+    param_specs,
+    param_io,
+    param_show=dict(),
+    param=dict()
 ):
-    shdw.__init__._logger.debug("Start creation of normal maps with settings:\n'output':\t'{}',\n'scale':\t'{}',\n".format(output, scale))
-    img_set, save = shdw.tools.data.get_data(files, **output, scale=scale, specs=specs, show=False, live=True)
+    _logger.debug("Start creation of maximum likelihood classification map with settings:\nparam_specs:\t{},\nparam_io:\t{},\nparam_show:\t{},\nparam:\t{}".format(param_specs, param_io, param_show, param))
 
-    for item in iter(img_set):
-        shdw.__init__._logger.debug("Processing image '{}'".format(item[0].path)) 
+    #   settings ------------------------------------------------------------
+    # -----------------------------------------------------------------------
+    img_in, img_out, _, _ = shdw.utils.imgio.get_data(files, param_specs, param_io, param_show=param_show)
 
-        nm = shdw.tools.heightmap.get_normal_image(item.spec("image").data,item.spec("height").data, bins=bins)
-        save(item[0].path, nm)
+    for item in img_in:
+        _logger.debug("Processing image '{}'".format(item[0].path)) 
+
+        nm = shdw.tools.heightmap.get_normal_image(item.spec("image").data,item.spec("height").data, bins=param["bins"])
+        img_out(item[0].path, nm)

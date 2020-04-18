@@ -4,7 +4,7 @@
 
 #   import ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-import shdw.tools.imgtools
+import shdw.utils.imgtools
 import sklearn
 import numpy as np
 import pandas as pd

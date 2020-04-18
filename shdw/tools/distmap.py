@@ -4,31 +4,37 @@
 
 #   import ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-import shdw.tools.data
-import shdw.tools.imgtools
+from shdw.__init__ import _logger
+import shdw.utils.imgio
+import shdw.utils.imgtools
 
 import numpy as np
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def new_distance_transform_map(
-    files,
-    specs,
-    output,
-    param_label=dict(), 
-    scale=100, 
-    label_value=0, 
-    threshold=10
+    files, 
+    param_specs,
+    param_io,
+    param_label=dict(),
+    param_show=dict(),
+    param=dict()
 ):
-    shdw.__init__._logger.debug("Start creation of distance transform maps (Bischke et. al.) with settings:\n'output':\t'{}',\n'scale':\t'{}',\n'label':\t'{}',\n'threshold':\t'{}'".format(output, scale, label_value, threshold))
-    img_set, save = shdw.tools.data.get_data(files, **output, scale=scale, param_label=param_label, specs=specs, show=False, live=True)
+    _logger.debug("Start creation of maximum likelihood classification map with settings:\nparam_specs:\t{},\nparam_io:\t{},\nparam_label:\t{},\nparam_show:\t{},\nparam:\t{}".format(param_specs, param_io, param_label, param_show, param))
 
-    for item in iter(img_set):
-        shdw.__init__._logger.debug("Processing image '{}'".format(item[0].path)) 
+    #   settings ------------------------------------------------------------
+    # -----------------------------------------------------------------------
+    img_in, img_out, _, _ = shdw.utils.imgio.get_data(files, param_specs, param_io, param_label=param_label, param_show=param_show)
 
-        edt = shdw.tools.imgtools.get_distance_transform(
+    for item in img_in:
+        _logger.debug("Processing image '{}'".format(item[0].path)) 
+
+        edt = shdw.utils.imgtools.get_distance_transform(
             item.spec("label").data,
-            label_value, threshold
+            param["label_value"], 
+            param["threshold"]
         )
 
-        save(item[0].path, edt)
+        img_out(item[0].path, edt)
+
+        print(shdw.utils.imgtools.get_img_information(edt))

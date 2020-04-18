@@ -7,7 +7,7 @@
 import shdw.__init__
 import shdw.utils.ply
 import shdw.config.settings
-import shdw.tools.imgtools
+import shdw.utils.imgtools
 
 import tempfile
 import subprocess
@@ -21,7 +21,7 @@ import numpy as np
 # ---------------------------------------------------------------------------
 def get_height_map(img, height=dict(), show=False):
     dim_new = (img.shape[0]*img.shape[1])
-    img = shdw.tools.imgtools.expand_image_dim(img.astype(float))
+    img = shdw.utils.imgtools.expand_image_dim(img.astype(float))
 
     if show:
         height_factor = float(np.max(img))/(float(np.max([img.shape[0], img.shape[1]])) / 10)
@@ -106,7 +106,7 @@ def get_normal_image(img, height, bins=None, verbose=False, show=False):
 
     normals = read_height_map(path)["nz"].to_numpy().reshape(height.shape)*(-1.)+1. 
     normals = np.where(normals>0., normals, np.min(normals[normals>0.]))
-    normals = shdw.tools.imgtools.project_data_to_img(-np.log(normals))
+    normals = shdw.utils.imgtools.project_data_to_img(-np.log(normals))
 
     if bins:
         normals = np.ceil(normals*bins)

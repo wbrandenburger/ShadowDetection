@@ -4,8 +4,8 @@
 
 #   import ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-import shdw.__init__
-import shdw.tools.data
+from shdw.__init__ import _logger
+import shdw.utils.imgio
 import source.freitas.shdwDetection
 import source.silva.Shadow_Detection
 
@@ -13,34 +13,40 @@ import source.silva.Shadow_Detection
 # ---------------------------------------------------------------------------
 def new_shadow_map_freitas(
     files, 
-    specs,
-    output, 
-    scale=100
+    param_specs,
+    param_io,
+    param_show=dict(),
 ):
-    shdw.__init__._logger.debug("Start creation of shadow maps (Freitas et. al.) with settings:\n'output':\t'{}',\n'scale':\t{}".format(output, scale))
-    img_set, save = shdw.tools.data.get_data(files, **output, scale=scale)
+    _logger.debug("Start creation of shadow maps (Freitas et. al.)  with settings:\nparam_specs:\t{},\nparam_io:\t{},\nparam_label:\t{},\nparam_show:\t{},\nparam:\t{}".format(param_specs, param_io, param_show))
 
-    for item in iter(img_set):
-        shdw.__init__._logger.debug("Processing image '{}'".format(item[0].path))
+    #   settings ------------------------------------------------------------
+    # -----------------------------------------------------------------------
+    img_in, img_out, _, _ = shdw.utils.imgio.get_data(files, param_specs, param_io, param_show=param_show)
+
+    for item in img_in:
+        _logger.debug("Processing image '{}'".format(item[0].path))
         img_shdw = source.freitas.shdwDetection.shadowDetection_Santos_KH(item[0].data)
 
-        save(item[0].path, img_shdw)
+        img_out(item[0].path, img_shdw)
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def new_shadow_map_silva(
-    files,
-    specs,
-    output, 
-    scale=100
+    files, 
+    param_specs,
+    param_io,
+    param_show=dict(),
 ):
-    shdw.__init__._logger.debug("Start creation of shadow maps (Silva et. al.) with settings:\n'output':\t'{}',\n'scale':\t{}".format(output, scale))
-    img_set, save = shdw.tools.data.get_data(files, **output, scale=scale)
+    _logger.debug("Start creation of shadow maps (Silva et. al.)  with settings:\nparam_specs:\t{},\nparam_io:\t{},\nparam_label:\t{},\nparam_show:\t{},\nparam:\t{}".format(param_specs, param_io, param_show))
 
-    for item in iter(img_set):
-        shdw.__init__._logger.debug("Processing image '{}'".format(item[0].path))
+    #   settings ------------------------------------------------------------
+    # -----------------------------------------------------------------------
+    img_in, img_out, _, _ = shdw.utils.imgio.get_data(files, param_specs, param_io, param_show=param_show)
+
+    for item in img_in:
+        _logger.debug("Processing image '{}'".format(item[0].path))
         img_shdw = source.silva.Shadow_Detection.shadow_detection(
             item[0].path,
             convolve_window_size = 5, num_thresholds = 3, struc_elem_size = 5
         )
-        save(item[0].path, img_shdw[0,...]*255)
+        img_out(item[0].path, img_shdw[0,...]*255)

@@ -4,15 +4,12 @@
 
 #   import ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-import shdw.__init__
+from shdw.__init__ import _logger
 import shdw.config.settings
 import shdw.plugin
 import shdw.debug.exceptions
 
 import click
-import logging
-import os
-import sys
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
@@ -54,20 +51,21 @@ def cli(
     shdw.config.settings.get_settings(file)
 
     # get the specified task and imort it as module
-    task_module = shdw.plugin.get_task_module(task_set)
+    task_module = shdw.plugin.get_module_from_submodule("tasks", task_set)
 
     # call task's main routine
     if not task:
-        shdw.__init__._logger.debug("Call the default routine from task set '{0}'".format(task_module[0]))
-        task_module[0].main()
+        _logger.debug("Call the default routine from task set '{0}'".format(task_module[0]))
+        task_module[1].main()
     else:
-        shdw.__init__._logger.debug("Call task '{1}' from set '{0}'".format(task_module[0], task))
+        _logger.debug("Call task '{1}' from set '{0}'".format(task_module[0], task))
 
         task_funcs = shdw.plugin.get_module_functions(task_module[0])
         if not task in task_funcs:
             raise shdw.debug.exceptions.ArgumentError(task, task_funcs) 
 
-        task_func = getattr(task_module[0], 
+        task_func = shdw.plugin.get_module_task(
+            task_module[0],
             "{}{}".format(shdw.config.settings._TASK_PREFIX, task)
         )
-        task_func()
+        task_func() 
