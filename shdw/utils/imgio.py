@@ -17,14 +17,14 @@ import tifffile
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def read_log(path):
-    _logger.debug("[READ] '{}'".format(path))
+    _logger.info("[READ] '{}'".format(path))
     with open(path, "r") as f:
         return f.read()
         
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def read_image(path):
-    _logger.debug("[READ] '{}'".format(path))
+    _logger.info("[READ] '{}'".format(path))
     
     if str(path).endswith(".tif"):
         img = tifffile.imread(path)
@@ -36,7 +36,7 @@ def read_image(path):
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def save_image(dest, img):
-    _logger.debug("[SAVE] '{}'".format(dest))
+    _logger.info("[SAVE] '{}'".format(dest))
 
     if str(dest).endswith(".tif"):
         tifffile.imwrite(dest, img)
@@ -46,7 +46,7 @@ def save_image(dest, img):
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
 def copy_image(path, dest):
-    _logger.debug("[COPY] '{}'".format(dest))
+    _logger.info("[COPY] '{}'".format(dest))
     shutil.copy2(path, dest)
 
 #   function ----------------------------------------------------------------

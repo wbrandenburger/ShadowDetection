@@ -23,7 +23,7 @@ def new_mlp_classification_stats(
     param_show=dict(),
     param=dict()
 ):
-    _logger.debug("Start creation of maximum likelihood classification map with settings:\nparam_specs:\t{},\nparam_io:\t{},\nparam_label:\t{},\nparam_show:\t{},\nparam:\t{}".format(param_specs, param_io, param_label, param_show, param))
+    _logger.info("Start creation of maximum likelihood classification map with settings:\nparam_specs:\t{},\nparam_io:\t{},\nparam_label:\t{},\nparam_show:\t{},\nparam:\t{}".format(param_specs, param_io, param_label, param_show, param))
 
     #   settings ------------------------------------------------------------
     # -----------------------------------------------------------------------
@@ -56,7 +56,7 @@ def new_mlp_classification_map(
     param_show=dict(),
     param=dict()
 ):
-    _logger.debug("Start creation of maximum likelihood classification map with settings:\nparam_specs:\t{},\nparam_io:\t{},\nparam_label:\t{},\nparam_show:\t{},\nparam:\t{}".format(param_specs, param_io, param_label, param_show, param))
+    _logger.info("Start creation of maximum likelihood classification map with settings:\nparam_specs:\t{},\nparam_io:\t{},\nparam_label:\t{},\nparam_show:\t{},\nparam:\t{}".format(param_specs, param_io, param_label, param_show, param))
 
     #   settings ------------------------------------------------------------
     # -----------------------------------------------------------------------
@@ -103,7 +103,7 @@ def new_mlp_mv_classification_map(
     param_show=dict(),
     param=dict()
 ):    
-    _logger.debug("Start creation of maximum likelihood classification map with settings:\nparam_specs:\t{},\nparam_io:\t{},\nparam_label:\t{},\nparam_show:\t{},\nparam:\t{}".format(param_specs, param_io, param_label, param_show, param))
+    _logger.info("Start creation of maximum likelihood classification map with settings:\nparam_specs:\t{},\nparam_io:\t{},\nparam_label:\t{},\nparam_show:\t{},\nparam:\t{}".format(param_specs, param_io, param_label, param_show, param))
 
     #   settings ------------------------------------------------------------
     # -----------------------------------------------------------------------

@@ -13,8 +13,21 @@ from scipy import ndimage
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_img_information(img):
-    return "Shape: {}, Range: {}, {}, {}, {}".format(img.shape, np.min(img), np.max(img), np.mean(img), np.std(img))
+def get_array_info(img, verbose=True):
+    info_str = "Shape: {}, Type: {}, Range: {:.3f}, {:.3f}".format(img.shape, img.dtype, np.min(img), np.max(img))
+
+    if verbose: 
+        info_str = "{}, Stats: {:.3f}, {:.3f}".format(info_str, np.mean(img), np.std(img))
+    
+    return info_str
+
+#   function ----------------------------------------------------------------
+# ---------------------------------------------------------------------------
+def get_volume(array):
+    volume = 1
+    for item in array:
+        volume *= item
+    return volume
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
@@ -136,12 +149,12 @@ def get_connected_components(img, connectivity=8):
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------
-def get_distance_transform(img, label=0, threshold=10):
+def get_distance_transform(img, label=0, threshold=10, dtype=np.float32):
     mask_class = ndimage.distance_transform_edt(get_label_mask(img, label_list=[label], equal=True).astype(float))
     mask_non_class = ndimage.distance_transform_edt(get_label_mask(img, label_list=[label], equal=False).astype(float))
 
     distm = np.where(mask_class < threshold, mask_class, threshold) - np.where(mask_non_class < threshold, mask_non_class, threshold)
-    return distm
+    return distm.astype(dtype)
 
 #   function ----------------------------------------------------------------
 # ---------------------------------------------------------------------------

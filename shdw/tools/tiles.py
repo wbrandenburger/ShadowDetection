@@ -35,4 +35,8 @@ def new_tiles(
             except KeyError:
                 tiles = img.shape
 
-            img_out(item.path, img[0:tiles[0], 0:tiles[1], :], index=index)
+            img = img[0:tiles[0], 0:tiles[1], :]
+            
+            _logger.info(shdw.utils.imgtools.get_array_info(img))
+        
+            img_out(item.path, img, index=index)

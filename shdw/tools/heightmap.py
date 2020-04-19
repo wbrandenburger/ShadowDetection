@@ -4,7 +4,7 @@
 
 #   import ------------------------------------------------------------------
 # ---------------------------------------------------------------------------
-import shdw.__init__
+from shdw.__init__ import _logger
 import shdw.utils.ply
 import shdw.config.settings
 import shdw.utils.imgtools
@@ -85,7 +85,7 @@ def write_height_map(img, height, path):
     data = pandas.DataFrame(height, index=range(img.shape[0]*img.shape[1]))
 
     # write to temporary file
-    shdw.__init__._logger.debug("Write point information to file {}".format(path))
+    _logger.info("[SAVE] '{}'".format(path))
     shdw.utils.ply.write_ply(path, points=data)
 
 #   function ----------------------------------------------------------------

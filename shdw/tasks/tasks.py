@@ -106,6 +106,7 @@ def task_new_tiles(setting="training"):
         shdw.config.settings.get_data(setting),
         shdw.config.settings._SETTINGS["param_specs"],
         shdw.config.settings._SETTINGS["param_io"],
+        shdw.config.settings._SETTINGS["param_show"],
         shdw.config.settings._SETTINGS["param"]
     )
 
